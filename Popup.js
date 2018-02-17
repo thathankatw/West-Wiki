@@ -75,7 +75,7 @@ if ($("#input_search").length == 1) {
 if ($("#switch").length == 1) {
     $("#fire").hide();
     $("#switch").on("click", function() {
-        $('#melee, #fire').toggle()
+        $('#melee, #fire').toggle();
     });
 }
 
@@ -296,11 +296,11 @@ var Popup = {
 if ((new RegExp(mw.config.get('wgFormattedNamespaces')[10] + '\:Item\_*').test(mw.config.get('wgPageName'))) && ($('.item_container').length == 1)) {
     $('#mw-content-text').append('<center><div id="popup_plain" class="popup_window"><div class="popup_front"><div class="tw_bg_tl"></div><div class="tw_bg_tr"></div><div class="tw_bg_bl"></div><div class="tw_bg_br"></div></div><div id="popup_plain_contents" class="popup_contents"></div></div></center>');
     $('#popup_plain').hide();
-    $('#popup_plain_contents').append(Popup.createPopup($('.item_container').attr('data-popup'), $('.item_container').attr('data-cdn-cat'), $('.item_container').attr('data-cdn-img'), 0))
+    $('#popup_plain_contents').append(Popup.createPopup($('.item_container').attr('data-popup'), $('.item_container').attr('data-cdn-cat'), $('.item_container').attr('data-cdn-img'), 0));
     $('#popup_plain').slideDown();
 }
 
 //On dbl click on item, redirect the user to the template
 $('.item_container img').on('dblclick', function() {
-    window.location = '/wiki/' + mw.config.get('wgFormattedNamespaces')[10] + ':Item_' + JSON.parse($(this).parent().attr('data-popup'))['id'] / 1000
+    window.location = '/wiki/' + mw.config.get('wgFormattedNamespaces')[10] + ':Item_' + JSON.parse($(this).parent().attr('data-popup')).id / 1000;
 });
