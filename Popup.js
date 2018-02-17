@@ -2,26 +2,35 @@
 $('body').append('<div id="popup_window" class="popup_window"><div class="popup_front"><div class="tw_bg_tl"></div><div class="tw_bg_tr"></div><div class="tw_bg_bl"></div><div class="tw_bg_br"></div></div><div id="popup_contents" class="popup_contents"></div></div>');
 
 //Set events
-$(document).on('mouseenter','.item_container',function(e){Popup.show(this);Popup.setPosition(e);});
-$(document).on('mouseleave','.item_container',function(){Popup.hide();});
-$(document).on('mousemove','.item_container', function(e){Popup.setPosition(e);});
+$(document).on('mouseenter', '.item_container', function(e) {
+    Popup.show(this);
+    Popup.setPosition(e);
+});
+$(document).on('mouseleave', '.item_container', function() {
+    Popup.hide();
+});
+$(document).on('mousemove', '.item_container', function(e) {
+    Popup.setPosition(e);
+});
 
-$('.item_level').mousedown(function(e){ e.preventDefault(); });
-$(document).on('click','.upgrade',function(){
+$('.item_level').mousedown(function(e) {
+    e.preventDefault();
+});
+$(document).on('click', '.upgrade', function() {
     var container = $(this).closest('.item_container');
     var lvl = parseInt(container.attr('data-lvl'));
-    if (lvl!==5){
-        container.attr('data-lvl',lvl+1);
-        container.find('.level').html(lvl+1);
+    if (lvl !== 5) {
+        container.attr('data-lvl', lvl + 1);
+        container.find('.level').html(lvl + 1);
     }
     Popup.show(container[0]);
 });
-$(document).on('click','.downgrade',function(){
+$(document).on('click', '.downgrade', function() {
     var container = $(this).closest('.item_container');
     var lvl = parseInt(container.attr('data-lvl'));
-    if (lvl!==0){
-        container.attr('data-lvl',lvl-1);
-        container.find('.level').html(lvl-1);
+    if (lvl !== 0) {
+        container.attr('data-lvl', lvl - 1);
+        container.find('.level').html(lvl - 1);
     }
     Popup.show(container[0]);
 });
@@ -71,9 +80,9 @@ if ($("#switch").length == 1) {
 }
 
 var Popup = {
-    content : "",
-    delay : 200,
-    active : false,
+    content: "",
+    delay: 200,
+    active: false,
     show: function(obj) {
         Popup.content = Popup.createPopup($(obj).attr('data-popup'), $(obj).attr('data-cdn-cat'), $(obj).attr('data-cdn-img'), parseInt($(obj).attr('data-lvl')));
         Popup.active = true;
@@ -95,29 +104,29 @@ var Popup = {
             Popup.getEl().css('display', 'block');
         }, Popup.delay);
     },
-    clearTimeout : function() {
+    clearTimeout: function() {
         if (Popup.timer) window.clearTimeout(Popup.timer);
     },
-    getEl : function() {
+    getEl: function() {
         return $('#popup_window');
     },
-    getContainer : function() {
+    getContainer: function() {
         return $('#popup_contents');
     },
     createPopup: function(data, cdn_cat, cdn_name, lvl) {
         data = JSON.parse(data);
         var html = '<div class="popup_image"><img src="https://westzz.innogamescdn.com/images/items/' + data.cdn_cat + '/' + data.cdn_img + '.png' + '"/></div><div class="popup_divider"></div><p class="popup_name">' + data.name + '</p><p class="popup_type">' + data.type + '</p><br/>';
         var upgraded = false;
-        if ((lvl>=1)&&(lvl<=5)){
+        if ((lvl >= 1) && (lvl <= 5)) {
             upgraded = true;
             data.auc = false;
         }
-        if (data.dmg_min&&data.dmg_max){
+        if (data.dmg_min && data.dmg_max) {
             if (upgraded) {
-                data.dmg_min += Math.round(Math.max(1, data.dmg_min * 0.1  * lvl));
-                data.dmg_max += Math.round(Math.max(1, data.dmg_max * 0.1  * lvl));
+                data.dmg_min += Math.round(Math.max(1, data.dmg_min * 0.1 * lvl));
+                data.dmg_max += Math.round(Math.max(1, data.dmg_max * 0.1 * lvl));
             }
-            html += '<p class="popup_dmg">'+data.dmg_min+'-'+data.dmg_max+' Damages</p>';
+            html += '<p class="popup_dmg">' + data.dmg_min + '-' + data.dmg_max + ' Damages</p>';
         }
         for (var cat in Popup.data) {
             var cnt = 0;
@@ -128,22 +137,22 @@ var Popup = {
                     if (data[key] < 0) {
                         if ($('#input_level input').val() > 0) {
                             data[key] = Math.ceil($('#input_level input').val() * -data[key]);
-                            if (upgraded){
-                                data[key] += Math.round(Math.max(1, data[key] * 0.1  * lvl));
+                            if (upgraded) {
+                                data[key] += Math.round(Math.max(1, data[key] * 0.1 * lvl));
                             }
                         } else {
                             data[key] = -data[key];
                             per_level = " (per Level)";
-                            if (upgraded){
+                            if (upgraded) {
                                 data[key] = Math.round(1e6 * (data[key] * 1 + Math.round(Math.max(1, data[key] * 1000 * lvl)) / 10000)) / 1e6;
                             }
                         }
                     } else if (upgraded) {
-						if (data[key]<1){
-							data[key] = Math.round(1e6 * (data[key] * 1 + Math.round(Math.max(1, data[key] * 1000 * lvl)) / 10000)) / 1e6;
-						} else {
-						    data[key] += Math.round(Math.max(1, data[key] * 0.1  * lvl));
-						}
+                        if (data[key] < 1) {
+                            data[key] = Math.round(1e6 * (data[key] * 1 + Math.round(Math.max(1, data[key] * 1000 * lvl)) / 10000)) / 1e6;
+                        } else {
+                            data[key] += Math.round(Math.max(1, data[key] * 0.1 * lvl));
+                        }
                     }
                     html += Popup.data[cat][key].replace('#1', data[key]).replace('#2', per_level);
                 }
@@ -152,44 +161,44 @@ var Popup = {
                 html += '<br/>';
             }
         }
-        if (data.text){
-            for (var i = 0; i < data.text.length;i++){
-                html += '<p class="popup_text">'+data.text[i]+'</p>';
+        if (data.text) {
+            for (var i = 0; i < data.text.length; i++) {
+                html += '<p class="popup_text">' + data.text[i] + '</p>';
             }
-            html+='<br/>';
+            html += '<br/>';
         }
-        if (data.bonus){
-            for (var i = 0; i < data.bonus.length;i++){
-                html += '<p class="popup_bonus">'+data.bonus[i]+'</p>';
+        if (data.bonus) {
+            for (var i = 0; i < data.bonus.length; i++) {
+                html += '<p class="popup_bonus">' + data.bonus[i] + '</p>';
             }
-            html+='<br/>';
+            html += '<br/>';
         }
-        if (data.jobs){
+        if (data.jobs) {
             html += '<div style="text-align:center;"><table class="popup_job">';
-            for (var i =0; i<data.jobs.length;i++){
-                html += '<tr><td><img src="https://westzz.innogamescdn.com/images/jobs/'+data.jobs[i][1]+'.png"/></td><td><span>&nbsp;&nbsp;'+data.jobs[i][0]+'</span></td></tr>';
+            for (var i = 0; i < data.jobs.length; i++) {
+                html += '<tr><td><img src="https://westzz.innogamescdn.com/images/jobs/' + data.jobs[i][1] + '.png"/></td><td><span>&nbsp;&nbsp;' + data.jobs[i][0] + '</span></td></tr>';
             }
             html += '</table></div>';
         }
-        if (data.craft){
-            html += '<div style="text-align:center;"><table  class="popup_crafteditem"><tr><td><img src="https://westzz.innogamescdn.com/images/crafting/profsymbol_'+data.craft.id+'_small.png"/></td><td><table><tr>';
-            for (var i = 0;i<data.craft.req.length;i++){
-                html += '<td><img style="width:36px;height:36px;" src="https://westzz.innogamescdn.com/images/items/yield/'+data.craft.req[i][0]+'.png"/></td>';
+        if (data.craft) {
+            html += '<div style="text-align:center;"><table  class="popup_crafteditem"><tr><td><img src="https://westzz.innogamescdn.com/images/crafting/profsymbol_' + data.craft.id + '_small.png"/></td><td><table><tr>';
+            for (var i = 0; i < data.craft.req.length; i++) {
+                html += '<td><img style="width:36px;height:36px;" src="https://westzz.innogamescdn.com/images/items/yield/' + data.craft.req[i][0] + '.png"/></td>';
             }
             html += '</tr><tr>';
-            for (var i = 0;i<data.craft.req.length;i++){
-                html += '<td><span>x'+data.craft.req[i][1]+'</span></td>';
+            for (var i = 0; i < data.craft.req.length; i++) {
+                html += '<td><span>x' + data.craft.req[i][1] + '</span></td>';
             }
             html += '</tr></table></td></tr></table></div>';
         }
         html += '<div class="popup_infos">';
-        if (data.spd){
-			if (upgraded){
-				data.spd += Math.round(Math.max(1, data.spd * 0.1  * lvl));
-			}
-		html += '<p class="popup_speed">Speed: +' + data.spd + '%</p><br/>';
-		}
-        if (data.set) html += '<p><a class="popup_set" href="/wiki/'+data.set+'">' + data.set + '</a></p><br/>';
+        if (data.spd) {
+            if (upgraded) {
+                data.spd += Math.round(Math.max(1, data.spd * 0.1 * lvl));
+            }
+            html += '<p class="popup_speed">Speed: +' + data.spd + '%</p><br/>';
+        }
+        if (data.set) html += '<p><a class="popup_set" href="/wiki/' + data.set + '">' + data.set + '</a></p><br/>';
         if (data.sp) {
             html += '<img src="/images/5/57/Buy_price.png"/>' + data.bp + '&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/f/fc/Sell_price.png"/>&nbsp;' + data.sp + '<br/><br/>';
         } else {
@@ -203,7 +212,7 @@ var Popup = {
                 html += '<img src="/images/4/41/Gender_f.png"/>&nbsp;&nbsp;&nbsp;';
             }
         }
-        if (data.auc == 1){
+        if (data.auc == 1) {
             html += '<span class="popup_txtgreen">Auctionable</span><br/>';
         } else {
             html += '<span class="popup_txtred">Not auctionable</span><br/>';
@@ -216,7 +225,7 @@ var Popup = {
         html += '<br/><p class="popup_id">[item=<b>' + data.id + '</b>]</p></div>';
         return html;
     },
-    setPosition : function (e) {
+    setPosition: function(e) {
         var window_width = $(window).width();
         var window_height = $(window).height();
         var popup_width = Popup.getEl().outerWidth();
@@ -284,12 +293,14 @@ var Popup = {
 };
 
 //Show a "plain text" popup in the template
-if ((new RegExp(mw.config.get('wgFormattedNamespaces')[10]+'\:Item\_*').test(mw.config.get('wgPageName')))&&($('.item_container').length==1)){
+if ((new RegExp(mw.config.get('wgFormattedNamespaces')[10] + '\:Item\_*').test(mw.config.get('wgPageName'))) && ($('.item_container').length == 1)) {
     $('#mw-content-text').append('<center><div id="popup_plain" class="popup_window"><div class="popup_front"><div class="tw_bg_tl"></div><div class="tw_bg_tr"></div><div class="tw_bg_bl"></div><div class="tw_bg_br"></div></div><div id="popup_plain_contents" class="popup_contents"></div></div></center>');
     $('#popup_plain').hide();
-    $('#popup_plain_contents').append(Popup.createPopup($('.item_container').attr('data-popup'), $('.item_container').attr('data-cdn-cat'), $('.item_container').attr('data-cdn-img'),0))
+    $('#popup_plain_contents').append(Popup.createPopup($('.item_container').attr('data-popup'), $('.item_container').attr('data-cdn-cat'), $('.item_container').attr('data-cdn-img'), 0))
     $('#popup_plain').slideDown();
 }
 
 //On dbl click on item, redirect the user to the template
-$('.item_container img').on('dblclick',function(){window.location='/wiki/'+mw.config.get('wgFormattedNamespaces')[10]+':Item_'+JSON.parse($(this).parent().attr('data-popup'))['id']/1000});
+$('.item_container img').on('dblclick', function() {
+    window.location = '/wiki/' + mw.config.get('wgFormattedNamespaces')[10] + ':Item_' + JSON.parse($(this).parent().attr('data-popup'))['id'] / 1000
+});
