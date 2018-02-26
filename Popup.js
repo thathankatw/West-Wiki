@@ -463,9 +463,6 @@ if ($('.infoSet').length != 0) {
                                 set_calc.data[set_id].items[prop] = {};
                             }
                             set_calc.data[set_id].items[prop][json.id] = json[prop];
-							if (json[prop]<0&&$('#input_level input').length==0){
-								alert('Add an input level on this page !');
-							}
                         }
                     }
                 });
@@ -554,12 +551,12 @@ if ($('.infoSet').length != 0) {
                 var html = '<center><table class="infoSet"><caption><br><big><b>Total</b></big></caption><tbody><tr><td></center>';
                 for (var key in set_calc.bonus.set_bonus) {
                     if (total.hasOwnProperty(key)) {
-                        html += '<div class="set_bonus tooltip_container"><img src="' + set_calc.bonus.set_bonus[key].img + '"><b>+' + total[key] + (['xp', 'money', 'luck', 'spd', 'regen', 'drop'].indexOf(key)!==-1?"%":"") + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + set_calc.bonus.set_bonus[key].name + '</div></div></div></div>';
+                        html += '<div class="set_bonus tooltip_container"><img src="' + set_calc.bonus.set_bonus[key].img + '"><b>+' + total[key] + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + set_calc.bonus.set_bonus[key].name + '</div></div></div></div>';
                     }
                 }
                 for (var key in set_calc.bonus.extra_set_bonus) {
                     if (total.hasOwnProperty(key)) {
-                        html += '<div class="set_bonus tooltip_container"><img src="' + set_calc.bonus.extra_set_bonus[key].img + '"><b>+' + total[key] + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + set_calc.bonus.extra_set_bonus[key].name + '</div></div></div></div>';
+                        html += '<div class="set_bonus tooltip_container"><img src="' + set_calc.bonus.extra_set_bonus[key].img + '"><b>+' + total[key] + (['xp', 'money', 'luck', 'spd', 'regen', 'drop'].indexOf(key)!==-1?"%":"") + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + set_calc.bonus.extra_set_bonus[key].name + '</div></div></div></div>';
                     }
                 }
                 //Display the result at the bottom of the page
