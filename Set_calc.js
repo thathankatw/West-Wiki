@@ -1,4 +1,4 @@
-if ($('.set_container').length != 0) {
+if ($('.infoSet').length != 0) {
     var set_calc = {
         bonus: {
             //List of usual bonuses matched with tooltip and image url
@@ -183,7 +183,7 @@ if ($('.set_container').length != 0) {
         },
         calc: function() {
             //Only calc if a player level is provided
-            if ($('#input_level input').val() !== "") {
+            if ($('#input_level input').length==0|$('#input_level input').val() !== "") {
                 var level = parseInt($('#input_level input').val());
                 total = {};
                 for (var set_id in set_calc.data) {
@@ -251,7 +251,9 @@ if ($('.set_container').length != 0) {
                 }
                 //Display the result at the bottom of the page
                 $('#set_calc').html(html);
-            }
+            } else {
+				$('#set_calc').html("");
+			}
         },
         initEvents: function() {
             //Deactivate / activate item on click
