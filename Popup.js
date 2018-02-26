@@ -423,11 +423,11 @@ if ($('.infoSet').length != 0) {
                 },
                 fbdefs: {
                     name: "<b>Defense</b> (Fort battle sector bonus)",
-                    img: ""
+                    img: "/images/1/1a/Set_Fb_defense_sec.png"
                 },
                 fboffs: {
                     name: "<b>Attack</b> (Fort battle sector bonus)",
-                    img: ""
+                    img: "/images/f/fe/Set_Fb_offense_sec.png"
                 },
                 fbdmgs: {
                     name: "<b>Damages</b> (Fort battle sector bonus)",
@@ -463,6 +463,9 @@ if ($('.infoSet').length != 0) {
                                 set_calc.data[set_id].items[prop] = {};
                             }
                             set_calc.data[set_id].items[prop][json.id] = json[prop];
+							if (json[prop]<0&&$('#input_level input').length==0){
+								alert('Add an input level on this page !');
+							}
                         }
                     }
                 });
@@ -519,7 +522,7 @@ if ($('.infoSet').length != 0) {
                                 } else {
                                     if (set_calc.itemStatus[set_id][item_id] > 0) {
                                         if (value < 1) {
-                                            total[key] += Math.ceil((Math.round(1e6 * (value * 1 + Math.round(Math.max(1, value * 1000 * lvl)) / 10000)) / 1e6) * level);
+                                            total[key] += Math.round(1e6 * (value * 1 + Math.round(Math.max(1, value * 1000 * lvl)) / 10000)) / 1e6;
                                         } else {
                                             total[key] += Math.round(Math.max(1, value * 0.1 * lvl));
                                         }
@@ -551,7 +554,7 @@ if ($('.infoSet').length != 0) {
                 var html = '<center><table class="infoSet"><caption><br><big><b>Total</b></big></caption><tbody><tr><td></center>';
                 for (var key in set_calc.bonus.set_bonus) {
                     if (total.hasOwnProperty(key)) {
-                        html += '<div class="set_bonus tooltip_container"><img src="' + set_calc.bonus.set_bonus[key].img + '"><b>+' + total[key] + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + set_calc.bonus.set_bonus[key].name + '</div></div></div></div>';
+                        html += '<div class="set_bonus tooltip_container"><img src="' + set_calc.bonus.set_bonus[key].img + '"><b>+' + total[key] + (['xp', 'money', 'luck', 'spd', 'regen', 'drop'].indexOf(key)!==-1?"%":"") + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + set_calc.bonus.set_bonus[key].name + '</div></div></div></div>';
                     }
                 }
                 for (var key in set_calc.bonus.extra_set_bonus) {
