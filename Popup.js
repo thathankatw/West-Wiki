@@ -2,21 +2,21 @@
 $('body').append('<div id="popup_window" class="popup_window"><div class="popup_front"><div class="tw_bg_tl"></div><div class="tw_bg_tr"></div><div class="tw_bg_bl"></div><div class="tw_bg_br"></div></div><div id="popup_contents" class="popup_contents"></div></div>');
 
 //Set events
-$(document).on('mouseenter', '.item_container', function(e) {
+$(document).on('mouseenter', '.item_container', function (e) {
     Popup.show(this);
     Popup.setPosition(e);
 });
-$(document).on('mouseleave', '.item_container', function() {
+$(document).on('mouseleave', '.item_container', function () {
     Popup.hide();
 });
-$(document).on('mousemove', '.item_container', function(e) {
+$(document).on('mousemove', '.item_container', function (e) {
     Popup.setPosition(e);
 });
 
-$('.item_level').mousedown(function(e) {
+$('.item_level').mousedown(function (e) {
     e.preventDefault();
 });
-$(document).on('click', '.upgrade', function() {
+$(document).on('click', '.upgrade', function () {
     var container = $(this).closest('.item_container');
     var lvl = parseInt(container.attr('data-lvl'));
     if (lvl !== 5) {
@@ -25,7 +25,7 @@ $(document).on('click', '.upgrade', function() {
     }
     Popup.show(container[0]);
 });
-$(document).on('click', '.downgrade', function() {
+$(document).on('click', '.downgrade', function () {
     var container = $(this).closest('.item_container');
     var lvl = parseInt(container.attr('data-lvl'));
     if (lvl !== 0) {
@@ -36,15 +36,15 @@ $(document).on('click', '.downgrade', function() {
 });
 
 //Append input level
-if ($("#input_level").length == 1) {
-    var input_level = $('<input type="number" style="width:80px;" class="west" placeholder="Your level" min="0" max="150">').bind("propertychange keyup input paste", function() {
+if ($("#input_level").length === 1) {
+    var input_level = $('<input type="number" style="width:80px;" class="west" placeholder="Your level" min="0" max="150">').bind("propertychange keyup input paste", function () {
         if (this.value > 150) {
             this.value = 150;
         } else if (this.value < 0) {
             this.value = 0;
         }
-        $(".calc").each(function() {
-            if (input_level.val() == 0) {
+        $(".calc").each(function () {
+            if (input_level.val() === 0) {
                 $(this).html(this.id);
                 $('.per_level_off').addClass('per_level').removeClass('per_level_off');
             } else {
@@ -57,14 +57,14 @@ if ($("#input_level").length == 1) {
 
 
 //Search
-if ($("#input_search").length == 1) {
-    var input_search = $('<input type="search" class="west" placeholder="Search">').bind("propertychange keyup input paste", function() {
+if ($("#input_search").length === 1) {
+    var input_search = $('<input type="search" class="west" placeholder="Search">').bind("propertychange keyup input paste", function () {
         var val = this.value.toLowerCase();
-        if (val == '') {
+        if (val === '') {
             $('.item_container').show();
         } else {
             $('.item_container').hide();
-            $('.item_container').filter(function() {
+            $('.item_container').filter(function () {
                 return $(this).attr('data-popup').toLowerCase().indexOf(val) > -1;
             }).show();
         }
@@ -72,9 +72,9 @@ if ($("#input_search").length == 1) {
 }
 
 //Switch weapons
-if ($("#switch").length == 1) {
+if ($("#switch").length === 1) {
     $("#fire").hide();
-    $("#switch").on("click", function() {
+    $("#switch").on("click", function () {
         $('#melee, #fire').toggle();
     });
 }
@@ -83,13 +83,13 @@ var Popup = {
     content: "",
     delay: 200,
     active: false,
-    show: function(obj) {
+    show: function (obj) {
         Popup.content = Popup.createPopup($(obj).attr('data-popup'), $(obj).attr('data-cdn-cat'), $(obj).attr('data-cdn-img'), parseInt($(obj).attr('data-lvl')));
         Popup.active = true;
         Popup.setTimeout();
         Popup.getContainer().html(Popup.content);
     },
-    hide: function() {
+    hide: function () {
         Popup.getEl().css({
             display: 'none',
             top: 0,
@@ -98,22 +98,22 @@ var Popup = {
         Popup.active = false;
         Popup.clearTimeout();
     },
-    setTimeout: function() {
+    setTimeout: function () {
         Popup.clearTimeout();
-        Popup.timer = window.setTimeout(function() {
+        Popup.timer = window.setTimeout(function () {
             Popup.getEl().css('display', 'block');
         }, Popup.delay);
     },
-    clearTimeout: function() {
+    clearTimeout: function () {
         if (Popup.timer) window.clearTimeout(Popup.timer);
     },
-    getEl: function() {
+    getEl: function () {
         return $('#popup_window');
     },
-    getContainer: function() {
+    getContainer: function () {
         return $('#popup_contents');
     },
-    createPopup: function(data, cdn_cat, cdn_name, lvl) {
+    createPopup: function (data, cdn_cat, cdn_name, lvl) {
         data = JSON.parse(data);
         var html = '<div class="popup_image"><img src="https://westzz.innogamescdn.com/images/items/' + data.cdn_cat + '/' + data.cdn_img + '.png' + '"/></div><div class="popup_divider"></div><p class="popup_name">' + data.name + '</p><p class="popup_type">' + data.type + '</p><br/>';
         var upgraded = false;
@@ -225,7 +225,7 @@ var Popup = {
         html += '<br/><p class="popup_id">[item=<b>' + data.id + '</b>]</p></div>';
         return html;
     },
-    setPosition: function(e) {
+    setPosition: function (e) {
         var window_width = $(window).width();
         var window_height = $(window).height();
         var popup_width = Popup.getEl().outerWidth();
@@ -293,7 +293,7 @@ var Popup = {
 };
 
 //Show a "plain text" popup in the template
-if ((new RegExp(mw.config.get('wgFormattedNamespaces')[10] + '\:Item\_*').test(mw.config.get('wgPageName'))) && ($('.item_container').length == 1)) {
+if ((new RegExp(mw.config.get('wgFormattedNamespaces')[10] + '\:Item\_*').test(mw.config.get('wgPageName'))) && ($('.item_container').length === 1)) {
     $('#mw-content-text').append('<center><div id="popup_plain" class="popup_window"><div class="popup_front"><div class="tw_bg_tl"></div><div class="tw_bg_tr"></div><div class="tw_bg_bl"></div><div class="tw_bg_br"></div></div><div id="popup_plain_contents" class="popup_contents"></div></div></center>');
     $('#popup_plain').hide();
     $('#popup_plain_contents').append(Popup.createPopup($('.item_container').attr('data-popup'), $('.item_container').attr('data-cdn-cat'), $('.item_container').attr('data-cdn-img'), 0));
@@ -308,7 +308,7 @@ $('.item_container img').on('dblclick', function() {
 
 //SET CALC
 
-if ($('.infoSet').length != 0) {
+if ($('.infoSet').length !== 0) {
     var set_calc = {
         bonus: {
             //List of usual bonuses matched with tooltip and image url
@@ -441,16 +441,16 @@ if ($('.infoSet').length != 0) {
         data: {},
         //Status of all items (item lvl, activated or not)
         itemStatus: {},
-        getData: function() {
+        getData: function () {
             //Get bonuses from all item sets
-            $('.set_container').each(function() {
+            $('.set_container').each(function () {
                 var set_id = $(this).attr('data-set-id');
                 set_calc.itemStatus[set_id] = {};
                 set_calc.data[set_id] = {
                     items: {},
                     set: {}
                 };
-                $(this).find('.item_container').each(function() {
+                $(this).find('.item_container').each(function () {
                     var json = JSON.parse($(this).attr('data-popup'));
                     if ($(this).is(":hidden")) {
                         set_calc.itemStatus[set_id][json.id] = false;
@@ -468,12 +468,12 @@ if ($('.infoSet').length != 0) {
                 });
             });
             //Get bonuses from all sets
-            $('.infoSet').each(function() {
+            $('.infoSet').each(function () {
                 var set_id = $(this).attr('data-set-id');
-                $(this).find('.infosetatt').each(function() {
+                $(this).find('.infosetatt').each(function () {
                     var nb = $(this).attr('data-nb');
                     set_calc.data[set_id].set[nb] = {};
-                    $(this).find('.set_bonus').each(function() {
+                    $(this).find('.set_bonus').each(function () {
                         key = $(this).attr('data-type');
                         if ($(this).find('.calc').length !== 0) {
                             set_calc.data[set_id].set[nb][key] = -parseFloat($(this).find('.calc').attr('id'));
@@ -491,9 +491,9 @@ if ($('.infoSet').length != 0) {
             });
 
         },
-        calc: function() {
+        calc: function () {
             //Only calc if a player level is provided
-            if ($('#input_level input').length==0|$('#input_level input').val() !== "") {
+            if ($('#input_level').length === 0 | $('#input_level input').val() !== "") {
                 var level = parseInt($('#input_level input').val());
                 total = {};
                 for (var set_id in set_calc.data) {
@@ -556,22 +556,22 @@ if ($('.infoSet').length != 0) {
                 }
                 for (var key in set_calc.bonus.extra_set_bonus) {
                     if (total.hasOwnProperty(key)) {
-                        html += '<div class="set_bonus tooltip_container"><img src="' + set_calc.bonus.extra_set_bonus[key].img + '"><b>+' + total[key] + (['xp', 'money', 'luck', 'spd', 'regen', 'drop'].indexOf(key)!==-1?"%":"") + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + set_calc.bonus.extra_set_bonus[key].name + '</div></div></div></div>';
+                        html += '<div class="set_bonus tooltip_container"><img src="' + set_calc.bonus.extra_set_bonus[key].img + '"><b>+' + total[key] + (['xp', 'money', 'luck', 'spd', 'regen', 'drop'].indexOf(key) !== -1 ? "%" : "") + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + set_calc.bonus.extra_set_bonus[key].name + '</div></div></div></div>';
                     }
                 }
                 //Display the result at the bottom of the page
                 $('#set_calc').html(html);
             } else {
-				$('#set_calc').html("");
-			}
+                $('#set_calc').html("");
+            }
         },
-        initEvents: function() {
+        initEvents: function () {
             //Deactivate / activate item on click
-            $('.item_container > img').click(function() {
-                item_container = $(this).closest('.item_container');
+            $('.item_container > img').on('click', function () {
+                var item_container = $(this).closest('.item_container');
                 item_container.toggleClass('item_off');
-                set_id = item_container.closest('.set_container').attr('data-set-id');
-                item_id = JSON.parse(item_container.attr('data-popup')).id;
+                var set_id = item_container.closest('.set_container').attr('data-set-id');
+                var item_id = JSON.parse(item_container.attr('data-popup')).id;
                 if (item_container.hasClass('item_off') || item_container.is(":hidden")) {
                     set_calc.itemStatus[set_id][item_id] = false;
                 } else {
@@ -580,7 +580,7 @@ if ($('.infoSet').length != 0) {
                 set_calc.calc();
             });
             //Update item level on upgrade / downgrade
-            $(document).on('click', '.upgrade, .downgrade', function() {
+            $(document).on('click', '.upgrade, .downgrade', function () {
                 var item = $(this).closest('.item_container');
                 var set_id = item.closest('.set_container').attr('data-set-id');
                 if (!item.hasClass('item_off') && !item.is(":hidden")) {
@@ -589,12 +589,12 @@ if ($('.infoSet').length != 0) {
                 }
             });
             //Calc again when player level changes
-            $("#input_level").bind("propertychange keyup input paste", function() {
+            $("#input_level").bind("propertychange keyup input paste", function () {
                 set_calc.calc();
             });
             //Activate/deactivate melee/fire weapon when the switch btn is clicked
-            $("#switch").click(function() {
-                $('#melee, #fire').each(function() {
+            $("#switch").on('click', function () {
+                $('#melee, #fire').each(function () {
                     var item = $(this).find('.item_container');
                     var set_id = $(this).closest('.set_container').attr('data-set-id');
                     if ($(this).is(":hidden")) {
@@ -606,10 +606,12 @@ if ($('.infoSet').length != 0) {
                 set_calc.calc();
             });
         },
-        init: function() {
+        init: function () {
             set_calc.initEvents();
             set_calc.getData();
             $('#mw-content-text').append('<div id="set_calc"></div>');
+            if ($('#input_level').length === 0)
+                set_calc.calc();
         }
     };
     set_calc.init();
