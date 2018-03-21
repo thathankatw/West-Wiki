@@ -44,7 +44,7 @@ if ($("#input_level").length === 1) {
             this.value = 0;
         }
         $(".calc").each(function () {
-            if (input_level.val() === 0) {
+            if (input_level.val() == 0) {
                 $(this).html(this.id);
                 $('.per_level_off').addClass('per_level').removeClass('per_level_off');
             } else {
