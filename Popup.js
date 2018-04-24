@@ -180,6 +180,30 @@ ui = {
             fbdmgs: {
                 name: "<b>Damages</b> (Fort battle sector bonus)",
                 img: "/images/b/b3/Damages_sector.png"
+            },
+            xp: {
+                name: "Experience from jobs, duels, and fort battles (%)",
+                img: "/images/7/71/Set_xp.png"
+            },
+            money: {
+                name: "Money from jobs and duels (%)",
+                img: "/images/d/df/Set_money.png"
+            },
+            luck: {
+                name:"Increased Luck",
+                img:"/images/c/c1/Set_luck.png"
+            },
+            regen: {
+                name:"Regeneration",
+                img:"/images/5/53/Regeneration.png",
+            },
+            drop:{
+                name:"Improved drop chance",
+                img:"/images/thumb/b/b8/Drop.png/40px-Drop.png"
+            },
+            labor_pts:{
+                name:"Labor points (all jobs)",
+                img:"/images/5/5e/Labor_pts.png"
             }
         }
     },
@@ -324,6 +348,12 @@ ui = {
                 if (cnt > 0) {
                     html += '<br/>';
                 }
+            }
+            if (data.textjob) {
+                for (var i = 0; i < data.textjob.length; i++) {
+                    html += '<p class="popup_skill">' + data.textjob[i] + '</p>';
+                }
+                html += '<br/>';
             }
             if (data.text) {
                 for (var i = 0; i < data.text.length; i++) {
