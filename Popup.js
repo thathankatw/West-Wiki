@@ -43,12 +43,20 @@ ui = {
                 app: '<p class="popup_skill">+ #1 Appearance#2</p>'
             },
             fb: {
-                fbdef: '<p class="popup_fb">+ #1 <b>Defense</b> (Fort battle bonus)</p>',
-                fboff: '<p class="popup_fb">+ #1 <b>Attack</b> (Fort battle bonus)</p>',
-                fbres: '<p class="popup_fb">+ #1 <b>Resistance</b> (Fort battle bonus)</p>',
-                fbdefs: '<p class="popup_fb">+ #1 <b>Defense</b> (Fort battle sector bonus)</p>',
-                fboffs: '<p class="popup_fb">+ #1 <b>Attack</b> (Fort battle sector bonus)</p>',
-                fbdmgs: '<p class="popup_fb">+ #1 <b>Damages</b> (Fort battle sector bonus)</p>'
+                fbdef: '<p class="popup_fb">+ #1 <b>Defense</b> (Fort battle bonus)#2</p>',
+                fboff: '<p class="popup_fb">+ #1 <b>Attack</b> (Fort battle bonus)#2</p>',
+                fbres: '<p class="popup_fb">+ #1 <b>Resistance</b> (Fort battle bonus)#2</p>',
+                fbdefs: '<p class="popup_fb">+ #1 <b>Defense</b> (Fort battle sector bonus)#2</p>',
+                fboffs: '<p class="popup_fb">+ #1 <b>Attack</b> (Fort battle sector bonus)#2</p>',
+                fbdmgs: '<p class="popup_fb">+ #1 <b>Damages</b> (Fort battle sector bonus)#2</p>'
+            },
+            special: {
+                xp:'+ #1% Experience from jobs, duels and fort battles#2',
+                money:'+ #1% Money from jobs and duels#2',
+                luck:'+ #1% Improved Luck#2',
+                regen:'+ #1% Regeneration#2',
+                drop:'+ #1 Improved drop chance#2',
+                labor_pts:'+ #1 labor point#2',
             }
         }
     },
@@ -316,6 +324,12 @@ ui = {
                 }
                 html += '<p class="popup_dmg">' + data.dmg_min + '-' + data.dmg_max + ' ' + ui.lang.damages + '</p>';
             }
+            if (data.text) {
+                for (var i = 0; i < data.text.length; i++) {
+                    html += '<p class="popup_text">' + data.text[i] + '</p>';
+                }
+                html += '<br/>';
+            }
             for (var cat in ui.lang.popup) {
                 var cnt = 0;
                 for (var key in ui.lang.popup[cat]) {
@@ -351,13 +365,7 @@ ui = {
             }
             if (data.textjob) {
                 for (var i = 0; i < data.textjob.length; i++) {
-                    html += '<p class="popup_skill">' + data.textjob[i] + '</p>';
-                }
-                html += '<br/>';
-            }
-            if (data.text) {
-                for (var i = 0; i < data.text.length; i++) {
-                    html += '<p class="popup_text">' + data.text[i] + '</p>';
+                    html += '<p class="popup_txtgreen">' + data.textjob[i] + '</p>';
                 }
                 html += '<br/>';
             }
