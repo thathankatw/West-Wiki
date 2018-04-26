@@ -51,12 +51,12 @@ ui = {
                 fbdmgs: '<p class="popup_fb">+ #1 <b>Damages</b> (Fort battle sector bonus)#2</p>'
             },
             special: {
-                xp:'+ #1% Experience from jobs, duels and fort battles#2',
-                money:'+ #1% Money from jobs and duels#2',
-                luck:'+ #1% Improved Luck#2',
-                regen:'+ #1% Regeneration#2',
-                drop:'+ #1 Improved drop chance#2',
-                labor_pts:'+ #1 labor point#2',
+                xp:'<p class="popup_txtgreen">+ #1% Experience from jobs, duels and fort battles#2</p>',
+                money:'<p class="popup_txtgreen">+ #1% Money from jobs and duels#2</p>',
+                luck:'<p class="popup_txtgreen">+ #1% Improved Luck#2</p>',
+                regen:'<p class="popup_txtgreen">+ #1% Regeneration#2</p>',
+                drop:'<p class="popup_txtgreen">+ #1 Improved drop chance#2</p>',
+                labor_pts:'<p class="popup_txtgreen">+ #1 labor point#2</p>',
             }
         }
     },
