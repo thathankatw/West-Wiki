@@ -55,7 +55,7 @@ westui = {
                 money: '<p class="popup_txtgreen">+ #1% Money from jobs and duels#2</p>',
                 luck: '<p class="popup_txtgreen">+ #1% Improved Luck#2</p>',
                 regen: '<p class="popup_txtgreen">+ #1% Regeneration#2</p>',
-                drop: '<p class="popup_txtgreen">+ #1 Improved drop chance#2</p>',
+                drop: '<p class="popup_txtgreen">+ #1% Improved drop chance#2</p>',
                 labor_pts: '<p class="popup_txtgreen">+ #1 labor point#2</p>',
             }
         }
@@ -257,6 +257,14 @@ westui = {
             $("#fire").hide();
             $("#switch").on("click", function () {
                 $('#melee, #fire').toggle();
+            });
+        }
+        
+        //Switch products
+        if ($("#switch_prod").length === 1) {
+            $("#prod2").hide();
+            $("#switch_prod").on("click", function () {
+                $('#prod, #prod2').toggle();
             });
         }
 
