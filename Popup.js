@@ -57,7 +57,7 @@ westui = {
                 regen: '<p class="popup_txtgreen">+ #1% Regeneration#2</p>',
                 drop: '<p class="popup_txtgreen">+ #1% Improved drop chance#2</p>',
                 labor_pts: '<p class="popup_txtgreen">+ #1 labor point#2</p>',
-                spd: '<p class="popup_txtgreen">+ #1 Speed#2</p>'
+                spd: '<p class="popup_txtgreen">+ #1% Speed#2</p>'
             }
         }
     },
