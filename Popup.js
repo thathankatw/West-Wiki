@@ -57,6 +57,7 @@ westui = {
                 regen: '<p class="popup_txtgreen">+ #1% Regeneration#2</p>',
                 drop: '<p class="popup_txtgreen">+ #1% Improved drop chance#2</p>',
                 labor_pts: '<p class="popup_txtgreen">+ #1 labor point#2</p>',
+                spd: '<p class="popup_txtgreen">+ #1 Speed#2</p>'
             }
         }
     },
@@ -408,12 +409,6 @@ westui = {
                     data.hspd += Math.round(Math.max(1, data.hspd * 0.1 * lvl));
                 }
                 html += '<p class="popup_speed">' + westui.lang.speed + ': +' + data.hspd + '%</p><br/>';
-            }
-            if (data.spd) {
-                if (upgraded) {
-                    data.spd += Math.round(Math.max(1, data.spd * 0.1 * lvl));
-                }
-                html += '<p class="popup_txtgreen">+ ' + data.spd + '% ' + westui.lang.speed + '</p><br/>';
             }
             if (data.set) html += '<p><a class="popup_set" href="/wiki/' + data.set + '">' + data.set + '</a></p><br/>';
             if (data.sp) {
