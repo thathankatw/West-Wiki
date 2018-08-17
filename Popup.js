@@ -627,7 +627,7 @@ westui = {
                 var html = '<center><table class="infoSet"><caption><br><big><b>' + westui.lang.total + '</b></big></caption><tbody><tr><td></center>';
                 for (var key in westui.config.set_bonus) {
                     if (total.hasOwnProperty(key)) {
-                        html += '<div class="set_bonus tooltip_container"><img src="' + westui.config.set_bonus[key].img + '"><b>+' + total[key] + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + westui.config.set_bonus[key].name + '</div></div></div></div>';
+                        html += '<div class="set_bonus tooltip_container"><img src="' + westui.config.set_bonus[key].img + '"><b>+' + total[key] + (['xp', 'money', 'luck', 'spd', 'regen', 'drop'].indexOf(key) !== -1 ? "%" : "") + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + westui.config.set_bonus[key].name + '</div></div></div></div>';
                     }
                 }
                 for (var key in westui.set_calc.bonus.extra_set_bonus) {
