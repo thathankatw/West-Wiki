@@ -210,9 +210,9 @@ westui = {
                 name: "Improved drop chance",
                 img: "/images/thumb/b/b8/Drop.png/40px-Drop.png"
             },
-            labor_pts: {
-                name: "Labor points (all jobs)",
-                img: "/images/5/5e/Labor_pts.png"
+            spd: {
+                name: "Speed",
+                img: "/images/thumb/1/1a/QuarterHorse.png/40px-QuarterHorse.png"
             }
         }
     },
