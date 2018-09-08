@@ -513,6 +513,14 @@ westui = {
         //Status of all items (item lvl, activated or not)
         itemStatus: {},
         getData: function () {
+            $('.set_container').each(function () {
+                var set_id = $(this).attr('data-set-id');
+                westui.set_calc.itemStatus[set_id] = {};
+                westui.set_calc.data[set_id] = {
+                    items: {},
+                    set: {}
+                };
+            });
             //Get bonuses from all sets
             $('.infoSet').each(function () {
                 var set_id = $(this).attr('data-set-id');
@@ -536,13 +544,8 @@ westui = {
                 });
             });
             //Get bonuses from all item sets
-            $('.set_container').each(function () {
+             $('.set_container').each(function () {
                 var set_id = $(this).attr('data-set-id');
-                westui.set_calc.itemStatus[set_id] = {};
-                westui.set_calc.data[set_id] = {
-                    items: {},
-                    set: {}
-                };
                 $(this).find('.item_container').each(function () {
                     var json = JSON.parse($(this).attr('data-popup'));
                     if ($(this).is(":hidden")) {
@@ -560,7 +563,6 @@ westui = {
                     }
                 });
             });
-          
         },
         calc: function () {
             //Only calc if a player level is provided
