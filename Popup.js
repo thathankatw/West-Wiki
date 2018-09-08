@@ -513,6 +513,28 @@ westui = {
         //Status of all items (item lvl, activated or not)
         itemStatus: {},
         getData: function () {
+            //Get bonuses from all sets
+            $('.infoSet').each(function () {
+                var set_id = $(this).attr('data-set-id');
+                $(this).find('.infosetatt').each(function () {
+                    var nb = $(this).attr('data-nb');
+                    westui.set_calc.data[set_id].set[nb] = {};
+                    $(this).find('.set_bonus').each(function () {
+                        key = $(this).attr('data-type');
+                        if ($(this).find('.calc').length !== 0) {
+                            westui.set_calc.data[set_id].set[nb][key] = -parseFloat($(this).find('.calc').attr('id'));
+                        } else {
+                            westui.set_calc.data[set_id].set[nb][key] = parseFloat($(this).find('.val').text());
+                        }
+                        if (!westui.config.set_bonus.hasOwnProperty(key)) {
+                            westui.set_calc.bonus.extra_set_bonus[key] = {
+                                img: $(this).find('img').attr('src'),
+                                name: $(this).find('#tooltip_content').text()
+                            };
+                        }
+                    });
+                });
+            });
             //Get bonuses from all item sets
             $('.set_container').each(function () {
                 var set_id = $(this).attr('data-set-id');
@@ -538,29 +560,7 @@ westui = {
                     }
                 });
             });
-            //Get bonuses from all sets
-            $('.infoSet').each(function () {
-                var set_id = $(this).attr('data-set-id');
-                $(this).find('.infosetatt').each(function () {
-                    var nb = $(this).attr('data-nb');
-                    westui.set_calc.data[set_id].set[nb] = {};
-                    $(this).find('.set_bonus').each(function () {
-                        key = $(this).attr('data-type');
-                        if ($(this).find('.calc').length !== 0) {
-                            westui.set_calc.data[set_id].set[nb][key] = -parseFloat($(this).find('.calc').attr('id'));
-                        } else {
-                            westui.set_calc.data[set_id].set[nb][key] = parseFloat($(this).find('.val').text());
-                        }
-                        if (!westui.config.set_bonus.hasOwnProperty(key)) {
-                            westui.set_calc.bonus.extra_set_bonus[key] = {
-                                img: $(this).find('img').attr('src'),
-                                name: $(this).find('#tooltip_content').text()
-                            };
-                        }
-                    });
-                });
-            });
-
+          
         },
         calc: function () {
             //Only calc if a player level is provided
