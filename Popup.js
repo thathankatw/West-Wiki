@@ -529,7 +529,7 @@ westui = {
                         westui.set_calc.itemStatus[set_id][json.id] = 0;
                     }
                     for (var prop in json) {
-                        if (json.hasOwnProperty(prop) && westui.config.set_bonus.hasOwnProperty(prop)) {
+                        if (json.hasOwnProperty(prop) && (westui.config.set_bonus.hasOwnProperty(prop) || westui.set_calc.bonus.extra_set_bonus.hasOwnProperty(prop))) {
                             if (!westui.set_calc.data[set_id].items[prop]) {
                                 westui.set_calc.data[set_id].items[prop] = {};
                             }
