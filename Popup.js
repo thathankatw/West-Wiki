@@ -65,6 +65,7 @@ westui = {
         enable_set_calc: true,
         plain_popup: true,
         redirect_on_dblclick: false,
+        link_on_dblclick:true,
         cdn: "https://westzz.innogamescdn.com",
         img_buyprice: "/images/5/57/Buy_price.png",
         img_sellprice: "/images/f/fc/Sell_price.png",
@@ -281,6 +282,11 @@ westui = {
         if (westui.config.redirect_on_dblclick) {
             $('.item_container img').on('dblclick', function () {
                 window.location = '/wiki/' + mw.config.get('wgFormattedNamespaces')[10] + ':Item_' + JSON.parse($(this).parent().attr('data-popup')).id / 1000;
+            });
+        }
+        if (westui.config.link_on_dblclick) {
+            $('.item_container img').on('dblclick', function () {
+                window.location = '/wiki/' + $(this).parent().attr('data-link');
             });
         }
 
