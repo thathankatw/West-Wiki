@@ -66,6 +66,7 @@ westui = {
         plain_popup: true,
         redirect_on_dblclick: false,
         link_on_dblclick:true,
+        enable_sorting:true,
         cdn: "https://westzz.innogamescdn.com",
         img_buyprice: "/images/5/57/Buy_price.png",
         img_sellprice: "/images/f/fc/Sell_price.png",
@@ -216,6 +217,41 @@ westui = {
                 name: "Speed",
                 img: "/images/thumb/1/1a/QuarterHorse.png/40px-QuarterHorse.png"
             }
+        },
+        sorting: {
+            'Strength':'{"str":1}',
+            'Mobility':'{"mob":1}',
+            'Dexterity':'{"dex":1}',
+            'Charisma':'{"cha":1}',
+            'Construction':'{"str":1,"con":1}',
+            'Vigor':'{"str":1,"vig":1}',
+            'Toughness':'{"str":1,"tou":1}',
+            'Stamina':'{"str":1,"sta":1}',
+            'Health Points':'{"str":1,"hea":1}',
+            'Horseback Riding':'{"mob":1,"rid":1}',
+            'Reflex':'{"mob":1,"ref":1}',
+            'Dodging':'{"mob":1,"dod":1}',
+            'Hiding':'{"mob":1,"hid":1}',
+            'Swimming':'{"mob":1,"swi":1}',
+            'Aiming':'{"dex":1,"aim":1}',
+            'Shooting':'{"dex":1,"sho":1}',
+            'Setting traps':'{"dex":1,"pit":1}',
+            'Fine Motor Skills':'{"dex":1,fin":1}',
+            'Repairing':'{"dex":1,"rep":1}',
+            'Leadership':'{"cha":1,"lea":1}',
+            'Tactics':'{"cha":1,"tac":1}',
+            'Trading':'{"cha":1,"tra":1}',
+            'Animal Instinct':'{"cha":1,"ani":1}',
+            'Appearance':'{"cha":1,"app":1}',
+            'Labor points towards building':'{"str":3,"con":3,"dex":1,"rep":1,"cha":1,"lea":1}',
+            'Experience from jobs, duels, and fort battles (%)':'{"xp":1}',
+            'Money from jobs and duels (%)':'{"xp":1}',
+            'Increased Luck (%)':'{"luck":1}',
+            'Regeneration (%)':'{"regen":1}',
+            'Improved drop chance (%)':'{"drop":1}',
+            'Speed (%)':'{"spd":1,"hspd":1,"mob":1,"rid":1}',
+            'Average damage':'{"dmg_min":0.5,"dmg_max":0.5,"dmglvl":1}',
+            'Maximum damage':'{"dmg_max":1,"dmglvl":1}',
         }
     },
     initPage: function () {
@@ -261,7 +297,7 @@ westui = {
                 $('#melee, #fire').toggle();
             });
         }
-        
+
         //Switch products
         if ($("#switch_prod").length === 1) {
             $("#prod2").hide();
@@ -550,7 +586,7 @@ westui = {
                 });
             });
             //Get bonuses from all item sets
-             $('.set_container').each(function () {
+            $('.set_container').each(function () {
                 var set_id = $(this).attr('data-set-id');
                 $(this).find('.item_container').each(function () {
                     var json = JSON.parse($(this).attr('data-popup'));
@@ -693,9 +729,53 @@ westui = {
                 westui.set_calc.calc();
         }
     },
+    sorting: {
+        sortItems: function(param){
+            $('.item_container').removeAttr('data-sort');
+            function calcSortVal(el){
+                var data = JSON.parse($(el).attr('data-popup'));
+                var val = 0;
+                for (var prop in param){
+                    if (data[prop]){
+                        if (data[prop]<0){
+                            val+=Math.ceil(-data[prop]*($('#input_level input').val()?$('#input_level input').val():150))*param[prop];
+                        } else {
+                            val+=data[prop]*param[prop];
+                        }
+                    }
+                }
+                $(el).attr('data-sort',val);
+                if ($(el).find('p.number').length!==0){
+                    $(el).find('p.number').html(val);
+                } else {
+                    $(el).append('<p class="number">'+val+'</p>');
+                }
+            }
+            $('#mw-content-text').find('.item_container').sort(function(a, b) {
+                if (!$(a).attr('data-sort')){calcSortVal(a);}
+                if (!$(b).attr('data-sort')){calcSortVal(b);}
+                return $(b).attr('data-sort') - $(a).attr('data-sort');
+            }).appendTo('#mw-content-text');
+        },
+        init:function(){
+            if ($('div#sort_items').length===1){
+                var html = "<div id='input_search'><select id='sort_items' class='west'><option selected disabled>Order by :</option>";
+                for (var prop in westui.config.sorting){
+                    html+= "<option value='"+westui.config.sorting[prop]+"'>"+prop+"</option>";
+                }
+                html += "</select></div>";
+                $('div#sort_items').html(html);
+                $('select#sort_items').on('change',function(){
+                    westui.sorting.sortItems(JSON.parse($(this).find("option:selected").attr('value')));
+                });
+            }
+        }
+    },
     init: function () {
         westui.initPage();
         westui.popup.init();
+        if (westui.config.enable_sorting)
+            westui.sorting.init();
         if (westui.config.enable_set_calc && $('.infoSet').length !== 0) {
             westui.set_calc.init();
         }
