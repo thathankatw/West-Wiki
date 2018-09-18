@@ -751,6 +751,7 @@ westui = {
                     $(el).append('<p class="number">'+val+'</p>');
                 }
             }
+            $('#mw-content-text').find('.sorting_hidden').hide();
             $('#mw-content-text').find('.item_container').sort(function(a, b) {
                 if (!$(a).attr('data-sort')){calcSortVal(a);}
                 if (!$(b).attr('data-sort')){calcSortVal(b);}
