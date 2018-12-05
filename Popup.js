@@ -636,7 +636,7 @@ westui = {
                                         if (value < 1) {
                                             total[key] += Math.round(1e6 * (value * 1 + Math.round(Math.max(1, value * 1000 * lvl)) / 10000)) / 1e6;
                                         } else {
-                                            total[key] += Math.round(Math.max(1, value * 0.1 * lvl));
+                                            total[key] += value + Math.round(Math.max(1, value * 0.1 * lvl));
                                         }
                                     } else {
                                         total[key] += value;
