@@ -316,7 +316,7 @@ westui = {
 
         //Show a "plain text" popup in the template
         if (westui.config.plain_popup && (new RegExp(mw.config.get('wgFormattedNamespaces')[10] + '\:Item\_*').test(mw.config.get('wgPageName'))) && ($('.item_container').length === 1)) {
-            $('#mw-content-text').append('<center><div id="popup_plain" class="popup_window"><div class="popup_front"><div class="tw_bg_tl"></div><div class="tw_bg_tr"></div><div class="tw_bg_bl"></div><div class="tw_bg_br"></div></div><div id="popup_plain_contents" class="popup_contents"></div></div></center>');
+            $('#mw-content-text').append('<center><div id="popup_plain" class="popup_window"><div class="popup_front"><div class="tw_bg_popup_tl"></div><div class="tw_bg_popup_tr"></div><div class="tw_bg_popup_bl"></div><div class="tw_bg_popup_br"></div></div><div id="popup_plain_contents" class="popup_contents"></div></div></center>');
             $('#popup_plain').hide();
             $('#popup_plain_contents').append(westui.popup.createPopup($('.item_container').attr('data-popup'), $('.item_container').attr('data-cdn-cat'), $('.item_container').attr('data-cdn-img'), 0));
             $('#popup_plain').slideDown();
@@ -377,12 +377,12 @@ westui = {
                 upgraded = true;
                 data.auc = false;
             }
-            if (data.dmg_min && data.dmg_max) {
+            if (data.dgmin && data.dgmax) {
                 if (upgraded) {
-                    data.dmg_min += Math.round(Math.max(1, data.dmg_min * 0.1 * lvl));
-                    data.dmg_max += Math.round(Math.max(1, data.dmg_max * 0.1 * lvl));
+                    data.dgmin += Math.round(Math.max(1, data.dgmin * 0.1 * lvl));
+                    data.dgmax += Math.round(Math.max(1, data.dgmax * 0.1 * lvl));
                 }
-                html += '<p class="popup_dmg">' + data.dmg_min + '-' + data.dmg_max + ' ' + westui.lang.damages + '</p>';
+                html += '<p class="popup_dmg">' + data.dgmin + '-' + data.dgmax + ' ' + westui.lang.damages + '</p>';
             }
             if (data.text) {
                 for (var i = 0; i < data.text.length; i++) {
@@ -516,7 +516,7 @@ westui = {
         init: function() {
 
             //Append popup container
-            $('body').append('<div id="popup_window" class="popup_window"><div class="popup_front"><div class="tw_bg_tl"></div><div class="tw_bg_tr"></div><div class="tw_bg_bl"></div><div class="tw_bg_br"></div></div><div id="popup_contents" class="popup_contents"></div></div>');
+            $('body').append('<div id="popup_window" class="popup_window"><div class="popup_front"><div class="tw_bg_popup_tl"></div><div class="tw_bg_popup_tr"></div><div class="tw_bg_popup_bl"></div><div class="tw_bg_popup_br"></div></div><div id="popup_contents" class="popup_contents"></div></div>');
 
             //Set events
             $(document).on('mouseenter', '.item_container', function(e) {
@@ -674,12 +674,12 @@ westui = {
                 var html = '<center><table class="infoSet"><caption><br><big><b>' + westui.lang.total + '</b></big></caption><tbody><tr><td></center>';
                 for (var key in westui.config.set_bonus) {
                     if (total.hasOwnProperty(key)) {
-                        html += '<div class="set_bonus tooltip_container"><img src="' + westui.config.set_bonus[key].img + '"><b>+' + total[key] + (['xp', 'money', 'luck', 'spd', 'regen', 'drop'].indexOf(key) !== -1 ? "%" : "") + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + westui.config.set_bonus[key].name + '</div></div></div></div>';
+                        html += '<div class="set_bonus tooltip_container"><img src="' + westui.config.set_bonus[key].img + '"><b>+' + total[key] + (['xp', 'money', 'luck', 'spd', 'regen', 'drop'].indexOf(key) !== -1 ? "%" : "") + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tw_bg_tl"></div><div class="tw_bg_tr"></div><div class="tw_bg_bl"></div><div class="tw_bg_br"></div><div id="tooltip_content">' + westui.config.set_bonus[key].name + '</div></div></div></div>';
                     }
                 }
                 for (var key in westui.set_calc.bonus.extra_set_bonus) {
                     if (total.hasOwnProperty(key)) {
-                        html += '<div class="set_bonus tooltip_container"><img src="' + westui.set_calc.bonus.extra_set_bonus[key].img + '"><b>+' + total[key] + (['xp', 'money', 'luck', 'spd', 'regen', 'drop'].indexOf(key) !== -1 ? "%" : "") + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tt_bg_tl"></div><div class="tt_bg_tr"></div><div class="tt_bg_bl"></div><div class="tt_bg_br"></div><div id="tooltip_content">' + westui.set_calc.bonus.extra_set_bonus[key].name + '</div></div></div></div>';
+                        html += '<div class="set_bonus tooltip_container"><img src="' + westui.set_calc.bonus.extra_set_bonus[key].img + '"><b>+' + total[key] + (['xp', 'money', 'luck', 'spd', 'regen', 'drop'].indexOf(key) !== -1 ? "%" : "") + '</b><div class="tooltip_outer"><div class="tooltip"><div class="tw_bg_tl"></div><div class="tw_bg_tr"></div><div class="tw_bg_bl"></div><div class="tw_bg_br"></div><div id="tooltip_content">' + westui.set_calc.bonus.extra_set_bonus[key].name + '</div></div></div></div>';
                     }
                 }
                 //Display the result at the bottom of the page
