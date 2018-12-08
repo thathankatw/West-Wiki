@@ -227,7 +227,7 @@ westui = {
             }
         },
         sorting: {
-            'Strength': '{"str":1}',
+            'Force': '{"str":1}',
             'Mobility': '{"mob":1}',
             'Dexterity': '{"dex":1}',
             'Charisma': '{"cha":1}',
