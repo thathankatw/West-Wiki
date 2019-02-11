@@ -1,6 +1,6 @@
 westui = {
     lang: {
-        input_level: "Votre niveau",
+        input_level: "Niveau",
         input_search: "Recherche",
         damages: "Dégâts",
         per_level: "par Niveau",
@@ -66,7 +66,7 @@ westui = {
         plain_popup: false,
         redirect_on_dblclick: false,
         link_on_dblclick:false,
-        enable_sorting:false,
+        enable_sorting:true,
         cdn: "https://westfr.innogamescdn.com",
         img_buyprice: "/images/2/22/Achat.png",
         img_sellprice: "/images/3/3b/Vente.png",
@@ -227,39 +227,39 @@ westui = {
             }
         },
         sorting: {
-            'Force': '{"str":1}',
-            'Mobility': '{"mob":1}',
-            'Dexterity': '{"dex":1}',
-            'Charisma': '{"cha":1}',
-            'Construction': '{"str":1,"con":1}',
-            'Vigor': '{"str":1,"vig":1}',
-            'Toughness': '{"str":1,"tou":1}',
-            'Stamina': '{"str":1,"sta":1}',
-            'Health Points': '{"str":1,"hea":1}',
-            'Horseback Riding': '{"mob":1,"rid":1}',
-            'Reflex': '{"mob":1,"ref":1}',
-            'Dodging': '{"mob":1,"dod":1}',
-            'Hiding': '{"mob":1,"hid":1}',
-            'Swimming': '{"mob":1,"swi":1}',
-            'Aiming': '{"dex":1,"aim":1}',
-            'Shooting': '{"dex":1,"sho":1}',
-            'Setting traps': '{"dex":1,"pit":1}',
-            'Fine Motor Skills': '{"dex":1,fin":1}',
-            'Repairing': '{"dex":1,"rep":1}',
-            'Leadership': '{"cha":1,"lea":1}',
-            'Tactics': '{"cha":1,"tac":1}',
-            'Trading': '{"cha":1,"tra":1}',
-            'Animal Instinct': '{"cha":1,"ani":1}',
-            'Appearance': '{"cha":1,"app":1}',
-            'Labor points towards building': '{"str":3,"con":3,"dex":1,"rep":1,"cha":1,"lea":1}',
-            'Experience from jobs, duels, and fort battles (%)': '{"xp":1}',
-            'Money from jobs and duels (%)': '{"xp":1}',
-            'Increased Luck (%)': '{"luck":1}',
-            'Regeneration (%)': '{"regen":1}',
-            'Improved drop chance (%)': '{"drop":1}',
-            'Speed (%)': '{"spd":1,"hspd":1,"mob":1,"rid":1}',
-            'Average damage': '{"dmg_min":0.5,"dmg_max":0.5,"dmglvl":1}',
-            'Maximum damage': '{"dmg_max":1,"dmglvl":1}',
+            'Force': '{"fo":1}',
+            'Mobilité': '{"mo":1}',
+            'Habileté': '{"ha":1}',
+            'Charisme': '{"ch":1}',
+            'Construction': '{"fo":1,"co":1}',
+            'Puissance': '{"fo":1,"pu":1}',
+            'Ténacité': '{"fo":1,"te":1}',
+            'Persévérance': '{"fo":1,"pe":1}',
+            'Points de vie': '{"fo":1,"pv":1}',
+            'Monter à cheval': '{"mo":1,"mc":1}',
+            'Réflexe': '{"mo":1,"rx":1}',
+            'Eviter': '{"mo":1,"ev":1}',
+            'Se cacher': '{"mo":1,"ca":1}',
+            'Nager': '{"mo":1,"na":1}',
+            'Viser': '{"ha":1,"vi":1}',
+            'Tirer': '{"ha":1,"ti":1}',
+            'Piéger': '{"ha":1,"pi":1}',
+            'Dextérité': '{"ha":1,"de":1}',
+            'Réparer': '{"ha":1,"re":1}',
+            'Diriger': '{"ch":1,"di":1}',
+            'Tactique': '{"ch":1,"ta":1}',
+            'Marchander': '{"ch":1,"ma":1}',
+            'Manier les animaux': '{"ch":1,"an":1}',
+            'Prestance': '{"ch":1,"pr":1}',
+            'Points de travail pour construire': '{"fo":3,"co":3,"ha":1,"re":1,"ch":1,"di":1}',
+            'Expérience pour les travaux, duels et batailles de fort (%)': '{"xp":1}',
+            'Argent en travaux et duels (%)': '{"money":1}',
+            'Probabilité de chance en plus (%)': '{"luck":1}',
+            'Régénération (%)': '{"regen":1}',
+            'Chance de drop (%)': '{"drop":1}',
+            'Vitesse (%)': '{"spd":1,"hspd":1,"mo":1,"mc":1}',
+            'Dégât moyen': '{"dgmin":0.5,"dgmax":0.5,"dglvl":1}',
+            'Dégât maximal': '{"dgmax":1,"dglvl":1}',
         }
     },
     initPage: function() {
@@ -739,8 +739,7 @@ westui = {
     },
     sorting: {
         sortItems: function(param) {
-            $('.item_container').removeAttr('data-sort');
-
+            $('.item_container').removeAttr('data-sort').show();
             function calcSortVal(el) {
                 var data = JSON.parse($(el).attr('data-popup'));
                 var val = 0;
@@ -754,26 +753,31 @@ westui = {
                     }
                 }
                 $(el).attr('data-sort', val);
-                if ($(el).find('p.number').length !== 0) {
-                    $(el).find('p.number').html(val);
+                if (val==0){
+                  $(el).hide();
+                }
+                if ($(el).find('.sortval').length !== 0) {
+                    $(el).find('.sortval').html(val);
                 } else {
-                    $(el).append('<p class="number">' + val + '</p>');
+                    $(el).append('<div class="sortval">' + val + '</div>');
                 }
             }
             $('#mw-content-text').find('.sorting_hidden').hide();
-            $('#mw-content-text').find('.item_container').sort(function(a, b) {
-                if (!$(a).attr('data-sort')) {
-                    calcSortVal(a);
-                }
-                if (!$(b).attr('data-sort')) {
-                    calcSortVal(b);
-                }
-                return $(b).attr('data-sort') - $(a).attr('data-sort');
-            }).appendTo('#mw-content-text');
+            $('.sorting_container').each(function(){
+              $(this).find('.item_container').sort(function(a, b) {
+                  if (!$(a).attr('data-sort')) {
+                      calcSortVal(a);
+                  }
+                  if (!$(b).attr('data-sort')) {
+                      calcSortVal(b);
+                  }
+                  return $(b).attr('data-sort') - $(a).attr('data-sort');
+              }).appendTo($(this));
+            })
         },
         init: function() {
             if ($('div#sort_items').length === 1) {
-                var html = "<div id='input_search'><select id='sort_items' class='west'><option selected disabled>Order by :</option>";
+                var html = "<div id='input_search'><select id='sort_items' class='west'><option selected disabled>Trier par :</option>";
                 for (var prop in westui.config.sorting) {
                     html += "<option value='" + westui.config.sorting[prop] + "'>" + prop + "</option>";
                 }
