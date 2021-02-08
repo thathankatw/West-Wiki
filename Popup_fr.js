@@ -219,7 +219,7 @@ westui = {
       },
       labor_pts: {
         name: "Points de travail supplémentaires (sur tous les travaux)",
-        img: "/images/thumb/d/df/Jobs.png/40px-Jobs.png"
+        img: "/images/d/df/Jobs.png"
       },
       spd: {
         name: "Vitesse",
@@ -261,6 +261,13 @@ westui = {
       'Vitesse (%)': '{"spd":1,"hspd":1,"mo":1,"mc":1}',
       'Dégât moyen': '{"dgmin":0.5,"dgmax":0.5,"dglvl":1}',
       'Dégât maximal': '{"dgmax":1,"dglvl":1}',
+      'Items améliorables': '{"bool":true,"upg":1}',
+      'Items non améliorables': '{"bool":true,"upg":0}',
+      'Items vendables aux enchères': '{"bool":true,"auc":1}',
+      'Items non vendables aux enchères': '{"bool":true,"auc":0}',
+      'Items pouvant être droppés': '{"bool":true,"dropable":1}',
+      'Items disponibles dans les magasins': '{"bool":true,"shop":1}',
+      'Items nobles': '{"bool":true,"shop":0,"dropable":1}'
     }
   },
   initPage: function() {
@@ -372,9 +379,10 @@ westui = {
     },
     createPopup: function(el, lvl) {
       var data = JSON.parse(el.attr('data-popup'));
+      var image_cache = el.attr('data-cache');
       var cdn_cat = el.attr('data-cdn-cat');
       var cdn_name = el.attr('data-cdn-img');
-      var html = '<div class="popup_image"><img src="' + westui.config.cdn + '/images/items/' + data.cdn_cat + '/' + data.cdn_img + '.png' + '?1"/></div><div class="popup_divider"></div><p class="popup_name">' + data.name + '</p><p class="popup_type">' + data.type + '</p><br/>';
+      var html = '<div class="popup_image"><img src="' + westui.config.cdn + '/images/items/' + data.cdn_cat + '/' + data.cdn_img + '.png' + (image_cache ? "?" + image_cache : "") + '"/></div><div class="popup_divider"></div><p class="popup_name">' + data.name + '</p><p class="popup_type">' + data.type + '</p><br/>';
       var upgraded = false;
       if ((lvl >= 1) && (lvl <= 5)) {
         upgraded = true;
@@ -747,21 +755,31 @@ westui = {
   sorting: {
     sortItems: function(param) {
       $('.item_container').removeAttr('data-sort').show();
+
       function calcSortVal(el) {
         var data = JSON.parse($(el).attr('data-popup'));
         var char_lvl = $('#input_level input').val();
         char_lvl = (char_lvl ? char_lvl : 150);
-        var none = Object.keys(param).indexOf('id')!==-1;
+        var none = (Object.keys(param).indexOf('id') !== -1 || (param.bool && param.bool === true));
         var val = 0;
-        for (var prop in param) {
-          if (prop==="id"){
-            val -= data[prop];
-          } else if ((!data.lvl || data.lvl <= char_lvl)) {
-            if (data[prop]) {
-              if (data[prop] < 0) {
-                val += Math.ceil(-data[prop] * char_lvl) * param[prop];
-              } else {
-                val += data[prop] * param[prop];
+        if (param.bool && param.bool === true) {
+          val = 1;
+          for (var prop in param) {
+            if (prop !== "bool" && data[prop] !== param[prop]) {
+              val = 0;
+            }
+          }
+        } else {
+          for (var prop in param) {
+            if (prop === "id") {
+              val -= data[prop];
+            } else if ((!data.lvl || data.lvl <= char_lvl)) {
+              if (data[prop]) {
+                if (data[prop] < 0) {
+                  val += Math.ceil(-data[prop] * char_lvl) * param[prop];
+                } else {
+                  val += data[prop] * param[prop];
+                }
               }
             }
           }
@@ -771,12 +789,12 @@ westui = {
           $(el).hide();
         }
         if ($(el).find('.sortval').length !== 0) {
-          if (none){
+          if (none) {
             $(el).find('.sortval').html('');
           } else {
             $(el).find('.sortval').html(val);
           }
-        } else if (!none){
+        } else if (!none) {
           $(el).append('<div class="sortval">' + val + '</div>');
         }
       }
